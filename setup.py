@@ -1,3 +1,5 @@
+# setup.py
+
 from setuptools import setup, find_packages
 
 setup(
@@ -7,6 +9,9 @@ setup(
     entry_points={
         "console_scripts": [
             "cli_tool = cli_tool.cli:main",
+        ],
+        "cli_tool.commands": [  # Register the "cli_tool.commands" entry point group
+            "basic_commands = cli_tool.basic_commands:load",  # Register the basic command set
         ],
     },
     install_requires=[],
@@ -20,5 +25,5 @@ setup(
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
     ],
-    python_requires=">=3.13.0",
+    python_requires=">=3.12.0",
 )

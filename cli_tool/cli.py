@@ -1,3 +1,5 @@
+# cli.py
+
 from cli_tool.loader import load_commands
 
 class CLIApp:
@@ -6,7 +8,7 @@ class CLIApp:
 
     def run(self):
         """Main command loop."""
-        load_commands()
+        load_commands(self.commands)
         print("Welcome to CLI App! Type 'help' for available commands.")
         while True:
             command = input("cli_app> ").strip()
