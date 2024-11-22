@@ -11,18 +11,27 @@ class CLIApp:
         load_commands(self.commands)
         print("Welcome to CLI App! Type 'help' for available commands.")
         while True:
-            command = input("cli_app> ").strip()
-            if command == "exit":
+            user_input = input("cli_app> ").strip()
+            if not user_input:
+                continue
+            if user_input == "exit":
                 break
-            elif command == "help":
+            elif user_input == "help":
                 print("Available commands:", ", ".join(self.commands.keys()))
-            elif command in self.commands:
-                try:
-                    self.commands[command]()
-                except Exception as e:
-                    print(f"Error running command {command}: {e}")
             else:
-                print("Unknown command. Type 'help' to see available commands.")
+                # Split command and arguments
+                parts = user_input.split(maxsplit=1)
+                command = parts[0]
+                args = parts[1] if len(parts) > 1 else ""
+
+                if command in self.commands:
+                    try:
+                        # Pass arguments to the command function
+                        self.commands[command](args)
+                    except Exception as e:
+                        print(f"Error running command {command}: {e}")
+                else:
+                    print("Unknown command. Type 'help' to see available commands.")
 
 def main():
     CLIApp().run()

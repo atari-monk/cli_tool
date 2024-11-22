@@ -2,8 +2,9 @@
 
 def load():
     print("basic_commands.load() called")
-    def hello():
-        print("Hello, CLI World!")
+
+    def hello(args):
+        print(f"Hello, CLI World! Args received: {args}")
 
     return {
         "hello": hello
