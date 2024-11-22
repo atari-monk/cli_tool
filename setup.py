@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="atari_monk_cli_tool",
+    name="cli_tool",
     version="0.1.0",
     packages=find_packages(),
     entry_points={
