@@ -1,5 +1,5 @@
 import logging
-from cli_tool.logger import LoggerConfig
+from cli_logger.logger import LoggerConfig    
 
 LOGGER_CONFIG = {
     LoggerConfig.MAIN_LEVEL: logging.INFO,

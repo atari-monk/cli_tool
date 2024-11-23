@@ -1,7 +1,7 @@
 # basic_commands.py
 
 from cli_tool.config import LOGGER_CONFIG
-from cli_tool.logger import setup_logger
+from cli_logger.logger import setup_logger
 
 logger = setup_logger(__name__, LOGGER_CONFIG)
 
