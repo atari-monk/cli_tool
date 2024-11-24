@@ -1,20 +1,24 @@
 # cli.py
 
 import os
-from cli_tool.loader import load_commands
+from cli_logger.logger import setup_logger
 from cli_tool.config import LOGGER_CONFIG
-from cli_logger.logger import setup_logger    
+from cli_tool.loader import load_commands
+from cli_tool.storage_provider import StorageProvider
 
 logger = setup_logger(__name__, LOGGER_CONFIG)
 
 class CLIApp:
     def __init__(self):
-        self.commands = {}
-        load_commands(self.commands)
+        self._commands = {}
+        load_commands(self._commands)
+        self._storageProvider = StorageProvider()
 
     def run(self):
         logger.info("Welcome to CLI App! Type 'help' for available commands.")
         logger.info(f"Current working directory: {os.getcwd()}")
+
+        self._storageProvider.initialize_storage()
 
         while True:
             user_input = input("cli_tool> ").strip()
@@ -23,15 +27,15 @@ class CLIApp:
             if user_input == "exit":
                 break
             elif user_input == "help":
-                logger.info(f"Available commands: {', '.join(self.commands.keys())}")
+                logger.info(f"Available commands: {', '.join(self._commands.keys())}")
             else:
                 parts = user_input.split(maxsplit=1)
                 command = parts[0]
                 args = parts[1] if len(parts) > 1 else ""
 
-                if command in self.commands:
+                if command in self._commands:
                     try:
-                        self.commands[command](args)
+                        self._commands[command](args)
                     except Exception as e:
                         logger.error(f"Error running command {command}: {e}")
                 else:
