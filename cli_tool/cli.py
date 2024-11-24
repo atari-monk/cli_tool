@@ -1,5 +1,6 @@
 # cli.py
 
+import os
 from cli_tool.loader import load_commands
 from cli_tool.config import LOGGER_CONFIG
 from cli_logger.logger import setup_logger    
@@ -9,10 +10,12 @@ logger = setup_logger(__name__, LOGGER_CONFIG)
 class CLIApp:
     def __init__(self):
         self.commands = {}
+        load_commands(self.commands)
 
     def run(self):
-        load_commands(self.commands)
         logger.info("Welcome to CLI App! Type 'help' for available commands.")
+        logger.info(f"Current working directory: {os.getcwd()}")
+
         while True:
             user_input = input("cli_tool> ").strip()
             if not user_input:

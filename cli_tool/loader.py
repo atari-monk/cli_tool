@@ -17,7 +17,7 @@ def load_commands(commands):
                 if callable(command_module):
                     loaded_commands = command_module()
                     logger.debug(f"Loaded commands: {loaded_commands}")
-                    commands.update(loaded_commands)  # Merge into the main commands dictionary
+                    commands.update(loaded_commands)
                 else:
                     logger.warning(f"Entry point {entry_point.name} did not return a callable")
             except Exception as e:
