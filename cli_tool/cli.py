@@ -20,7 +20,7 @@ class CliTool:
         logger.info(f"Welcome to {APP_NAME}! Type 'help' for available commands.")
         logger.info(f"Current working directory: {os.getcwd()}")
 
-        self._configStorage.interact()
+        _ = self._configStorage.loadFromConfigOrCreate()
 
         while True:
             user_input = input(f"{APP_NAME}> ").strip()
