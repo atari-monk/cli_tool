@@ -4,33 +4,26 @@ import os
 from cli_logger.logger import setup_logger
 from cli_tool.config import LOGGER_CONFIG
 from cli_tool.loader import load_commands
-from keyval_storage.config_provider import ConfigProvider, PathData
-from keyval_storage.storage_provider import StorageProvider, StorageConfig
+from keyval_storage.config_storage_interaction import ConfigStorageInteraction
 
 logger = setup_logger(__name__, LOGGER_CONFIG)
 
-STORAGE_PATH_KEY = 'storage_path'
+APP_NAME = 'cli_tool'
 
-class CLIApp:
+class CliTool:
     def __init__(self):
         self._commands = {}
         load_commands(self._commands)
-        self._configProvider = ConfigProvider(PathData('C:\cli_tool', 'config.json'))
-        self._storageProvider = StorageProvider(StorageConfig('storage_path', 'storage.json'))
+        self._configStorage = ConfigStorageInteraction(APP_NAME)
 
     def run(self):
-        logger.info("Welcome to CLI App! Type 'help' for available commands.")
+        logger.info(f"Welcome to {APP_NAME}! Type 'help' for available commands.")
         logger.info(f"Current working directory: {os.getcwd()}")
 
-        config = self._configProvider.load_file()
-        if config:
-            _ = self._storageProvider.load_storage(config[STORAGE_PATH_KEY])
-        else:
-            _, storageFilePath = self._storageProvider.save_storage()
-            self._configProvider.save_file({STORAGE_PATH_KEY: storageFilePath})
+        self._configStorage.interact()
 
         while True:
-            user_input = input("cli_tool> ").strip()
+            user_input = input(f"{APP_NAME}> ").strip()
             if not user_input:
                 continue
             if user_input == "exit":
@@ -51,7 +44,7 @@ class CLIApp:
                     logger.warning("Unknown command. Type 'help' to see available commands.")
 
 def main():
-    CLIApp().run()
+    CliTool().run()
 
 if __name__ == "__main__":
     main()
