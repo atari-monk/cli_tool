@@ -4,21 +4,30 @@ import os
 from cli_logger.logger import setup_logger
 from cli_tool.config import LOGGER_CONFIG
 from cli_tool.loader import load_commands
-from cli_tool.storage_provider import StorageProvider
+from keyval_storage.config_provider import ConfigProvider, PathData
+from keyval_storage.storage_provider import StorageProvider, StorageConfig
 
 logger = setup_logger(__name__, LOGGER_CONFIG)
+
+STORAGE_PATH_KEY = 'storage_path'
 
 class CLIApp:
     def __init__(self):
         self._commands = {}
         load_commands(self._commands)
-        self._storageProvider = StorageProvider()
+        self._configProvider = ConfigProvider(PathData('C:\cli_tool', 'config.json'))
+        self._storageProvider = StorageProvider(StorageConfig('storage_path', 'storage.json'))
 
     def run(self):
         logger.info("Welcome to CLI App! Type 'help' for available commands.")
         logger.info(f"Current working directory: {os.getcwd()}")
 
-        self._storageProvider.initialize_storage()
+        config = self._configProvider.load_file()
+        if config:
+            _ = self._storageProvider.load_storage(config[STORAGE_PATH_KEY])
+        else:
+            _, storageFilePath = self._storageProvider.save_storage()
+            self._configProvider.save_file({STORAGE_PATH_KEY: storageFilePath})
 
         while True:
             user_input = input("cli_tool> ").strip()
