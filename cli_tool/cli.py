@@ -4,7 +4,7 @@ import os
 from cli_logger.logger import setup_logger
 from cli_tool.config import LOGGER_CONFIG
 from cli_tool.loader import load_commands
-from keyval_storage.config_storage_interaction import ConfigStorageInteraction
+from keyval_storage.config_storage_interaction import ConfigAndKeyValueStorageDataModel
 
 logger = setup_logger(__name__, LOGGER_CONFIG)
 
@@ -14,13 +14,15 @@ class CliTool:
     def __init__(self):
         self._commands = {}
         load_commands(self._commands)
-        self._configStorage = ConfigStorageInteraction(APP_NAME)
+        self._dataStorage = ConfigAndKeyValueStorageDataModel(APP_NAME)
 
     def run(self):
         logger.info(f"Welcome to {APP_NAME}! Type 'help' for available commands.")
         logger.info(f"Current working directory: {os.getcwd()}")
 
-        _ = self._configStorage.loadFromConfigOrCreate()
+        storage = self._dataStorage.getKeyValueStorage_LoadUsingConfig()
+        if not storage:
+            storage = self._dataStorage.getKeyValueStorage_NewFileAndConfig()
 
         while True:
             user_input = input(f"{APP_NAME}> ").strip()
