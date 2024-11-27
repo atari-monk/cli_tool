@@ -4,7 +4,7 @@ import os
 from cli_logger.logger import setup_logger
 from cli_tool.config import LOGGER_CONFIG
 from cli_tool.loader import load_commands
-from keyval_storage.config_storage_interaction import ConfigAndKeyValueStorageDataModel
+from keyval_storage.config_and_key_value_storage_data_model import ConfigAndKeyValueStorageDataModel
 
 logger = setup_logger(__name__, LOGGER_CONFIG)
 
@@ -22,6 +22,7 @@ class CliTool:
 
         storage = self._dataStorage.getKeyValueStorage_LoadUsingConfig()
         if not storage:
+            logger.info('Create new storage file and config')
             storage = self._dataStorage.getKeyValueStorage_NewFileAndConfig()
 
         while True:
