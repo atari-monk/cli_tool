@@ -6,3 +6,4 @@
 -   [Simple Args](simple_args.md)
 -   [Cli Command Enhancement](cli_command_enhancement.md)
 -   [Key Value Storage](key_value_storage.md)
+-   [CLI App vs Scripts](app_vs_script.md)
