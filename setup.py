@@ -3,18 +3,18 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="cli_tool",
-    version="0.1.0",
+    name="atari-monk-cli-tool",
+    version="0.1.1",
     packages=find_packages(),
     entry_points={
         "console_scripts": [
-            "cli_tool = cli_tool.cli:main",
+            "am_cli_tool = cli_tool.main:main",
         ],
-        "cli_tool.commands": [  # Register the "cli_tool.commands" entry point group
-            "basic_commands = cli_tool.basic_commands:load",  # Register the basic command set
+        "cli_tool.commands": [
+            "basic_commands = cli_tool.basic_commands:load",
         ],
     },
-    install_requires=[],
+    install_requires=["atari-monk-cli-logger", "atari-monk-keyval-storage"],
     description="A modular CLI application that supports dynamic command sets.",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
